@@ -1,0 +1,105 @@
+CORS
+Not allowed list:
+1. different domain => from abc.com to xyz.com
+2. subdomain => api.abc.com to abc.com 
+3. different port => abc.com:9000 => abc.com:5000
+4. different protocol => http to https
+
+origin a => preflight(to verify the call)/options => origin b
+origin a <= addition headers(access-control-allow-methods/origin) <= origin b (if validated)
+
+implment your own 
+Debouncing
+throttling
+infinite scroll
+virtual scroll
+dropdown
+bind call apply
+parallel api call
+promise
+
+Theory
+prototypes, object constructors, inheritance 
+cool es6 methods
+
+Web security
+
+Web performance
+
+Scalable UI
+
+CSS
+
+HTML topics
+
+Some ui system creation
+
+-----------------------------
+Throttling: if differene between two fn call is equal to a delay then only call fn
+it keeps calling a fn after certain interval of time. For eg if someone is typing a long text , then the first call would go at first 
+key stroke n then the next call would go after 300 ms no matter if u r still typing.
+
+Debounce; if differene between two keystroke is equal to a delay then make an api call. It will wait to make the api call until
+the gap between two keystroke is equal to delay. so if i m typing real fast for 10min then the next api call could be fired 
+after 10 min if i pause for a time greater than delay.
+
+therefore in case of throttling in 10 min possibly many api calls would fire but after a regular interval of time.
+but in case of Debounce only one api call would happen if sometime types continously for 10 min without stopping.
+
+Debouce : searching
+Throttling: resize window, scroll
+
+https://developers.google.com/web/fundamentals/performance/critical-rendering-path/constructing-the-object-model
+Every browser provides a default set of styles also known as "user agent styles"—that’s what we see when we don’t provide any of our own—and our styles simply override these defaults.
+By default, CSS is treated as a render blocking resource, which means that the browser won't render any processed content until the CSSOM is constructed. Make sure to keep your CSS lean, deliver it as quickly as possible, and use media types and queries to unblock rendering.
+When declaring your style sheet assets, pay close attention to the media type and queries; they greatly impact critical rendering path performance.
+<link href="style.css"    rel="stylesheet">
+<link href="style.css"    rel="stylesheet" media="all">
+<link href="portrait.css" rel="stylesheet" media="orientation:portrait">
+<link href="print.css"    rel="stylesheet" media="print">
+our script is executed at the exact point where it is inserted in the document. When the HTML parser encounters a script tag, it pauses its process of constructing the DOM and yields control to the JavaScript engine; after the JavaScript engine finishes running, the browser then picks up where it left off and resumes DOM construction.
+  the browser delays script execution and DOM construction until it has finished downloading and constructing the CSSOM.
+  n the case of an external JavaScript file the browser must pause to wait for the script to be fetched from disk, cache, or a remote server, which can add tens to thousands of milliseconds of delay to the critical rendering path.
+  Adding the async keyword to the script tag tells the browser not to block DOM construction while it waits for the script to become available, which can significantly improve performance.
+  domContentLoaded typically marks when both the DOM and CSSOM are ready.
+
+
+
+ASYNC vs DEFER
+Both async and defer have one common thing: downloading of such scripts doesn’t block page rendering. 
+So the user can read page content and get acquainted with the page immediately.
+
+But there are also essential differences between them:
+
+        Order	                                                                                DOMContentLoaded
+async	Load-first order. Their document order doesn’t matter – which loads first runs first	Irrelevant. May load and execute while the document has not yet been fully downloaded. That happens if scripts are small or cached, and the document is long enough.
+defer	Document order (as they go in the document).	                                        Execute after the document is loaded and parsed (they wait if needed), right before DOMContentLoaded.
+In practice, defer is used for scripts that need the whole DOM and/or their relative execution order is important.
+
+And async is used for independent scripts, like counters or ads. And their relative execution order does not matter.
+
+
+What happen when user hits a url in browser
+https://medium.com/@maneesha.wijesinghe1/what-happens-when-you-type-an-url-in-the-browser-and-press-enter-bb0aa2449c1a
+You type maps.google.com into the address bar of your browser.
+The browser checks the cache for a DNS record to find the corresponding IP address of maps.google.com.
+ First, it checks the browser cache. The browser maintains a repository of DNS records for a fixed duration for websites you have previously visited. So, it is the first place to run a DNS query.
+ Second, the browser checks the OS cache. If it is not in the browser cache, the browser will make a system call (i.e., gethostname on Windows) to your underlying computer OS to fetch the record since the OS also maintains a cache of DNS records.
+ Third, it checks the router cache. If it’s not on your computer, the browser will communicate with the router that maintains its’ own cache of DNS records.
+ Fourth, it checks the ISP cache. If all steps fail, the browser will move on to the ISP. Your ISP maintains its’ own DNS server, which includes a cache of DNS records, which the browser would check with the last hope of finding your requested URL.
+If the requested URL is not in the cache, ISP’s DNS server initiates a DNS query to find the IP address of the server that hosts maps.google.com.
+The browser initiates a TCP connection with the server.
+To transfer data packets between your computer(client) and the server, it is important to have a TCP connection established. 
+This connection is established using a process called the TCP/IP three-way handshake
+The browser sends an HTTP request to the webserver.This request will also contain additional information such as browser identification (User-Agent header), types of requests that it will accept (Accept header), and connection headers asking it to keep the TCP connection alive for additional requests. It will also pass information taken from cookies the browser has in store for this domain.
+The server handles the request and sends back a response.
+// Accept-Encoding gzip, deflate, br
+● 1xx indicates an informational message only
+
+● 2xx indicates success of some kind
+
+● 3xx redirects the client to another URL
+
+● 4xx indicates an error on the client’s part
+
+● 5xx indicates an error on the server’s part

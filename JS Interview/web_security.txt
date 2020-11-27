@@ -1,0 +1,98 @@
+// https://developers.google.com/web/fundamentals/security/csp
+// https://www.youtube.com/watch?v=pD6C1-zSxIM
+The web's security model is rooted in the same-origin policy. 
+Code from https://mybank.com should only have access to https://mybank.com's data, 
+and https://evil.example.com should certainly never be allowed access. 
+In practice, attackers have found clever ways to subvert the system.
+
+XSS ; its about executing js code on other user devices.
+script added as innerHTML are not eecuted
+to a image field : input -> acx.ns" onerror="alert('hacked')"
+solution sanitize: 
+use trusted third party library as thier codes are not sanitized by framework library
+use csp headers
+
+storing data in local storage vs cookies
+
+
+                        cookies             local storage           session storage
+capacity                  4kb                   10mb                        5mb
+Browsers               html4/html5              html5                       html5
+Accessible from         any window              any window                  same tab
+Expires                 manually Set            never                       on tab close
+Storage location        Browser and server      Browser                     Browser
+Sent with requests      yes                     no                          no
+
+
+document.cookie = "name=sumit;expires=" + new Date(2021,0,1).toUTCString()
+console.log(document.cookie) ouputs string
+
+is it safe to store tokens in local storgae in pursuit of xss? 
+<a href="" onclick="alert(JSON.stringify(localStorage))">click me</a>
+This reads all ur data from localStorage
+
+someone injects a malicious script tag code in the database through forms or curl url (stored xss attack)
+and when some one else load the same javascript then that script runs
+prevention
+res.setHeader("content-security-policy", "script-src http://localhost:8080 http://localhost:8081 ")
+therefore load script only through src tags and avoid inline script tag as src url can be verified
+
+1. XSS Stored Attacks
+The injected script is stored permanently on the target servers. 
+The victim then retrieves this malicious script from the server when the browser sends a request for data.
+
+2. https://github.com/hnasr/javascript_playground/tree/master/xss
+
+CSP
+Instead of blindly trusting everything that a server delivers, CSP defines the Content-Security-Policy HTTP header,
+ which allows you to create an allowlist of sources of trusted content, and instructs the browser to only execute or render
+ resources from those sources. Even if an attacker can find a hole through which to inject script, 
+ the script won't match the allowlist, and therefore won't be executed.
+With this policy defined, the browser simply throws an error instead of loading script from any other source. 
+When a clever attacker manages to inject code into your site, they'll run headlong into an error message rather 
+than the success they were expecting.
+It should be clear that CSP is based on allowlist origins, 
+as that's an unambiguous way of instructing the browser to treat specific sets of resources as acceptable and to reject the rest. 
+
+write js in external resources
+External resources are easier for browsers to cache, more understandable for developers, and conducive to compilation and minification. You'll write better code if you do the work to move code into external resources.
+Banning inline script is the biggest security win CSP provides, 
+
+
+CSRF cross site request forgery
+https://www.youtube.com/watch?v=eWEgUcHPle0
+https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html
+What if evil.com send request to delete acc similar to original client to server.
+How will server come to know the request came from evil site and not from the legitimate site?
+
+browser let u read cross domain data only if 
+port , protocol and domain is same
+
+CSRF evil.com -> broweser -> server to modify some value
+EVENTS
+login
+got cookie back 
+stored cookie in browser
+u sent delete acc request along with cookie to host: <your server>
+
+CORS
+
+HTTP COOKIES
+It remembers stateful information for the stateless HTTP protocol.
+a server can send one or more Set-Cookie headers with the response. 
+An expiration date or duration can be specified, after which the cookie is no longer sent.
+response: Set-Cookie: yummy_cookie=choco
+           Set-Cookie: tasty_cookie=strawberry
+next request: Cookie: yummy_cookie=choco; tasty_cookie=strawberry
+Then, with every subsequent request to the server, the browser sends back all previously stored cookies to the server using the Cookie header.
+Session cookies are deleted when the current session ends. 
+Permanent cookies are deleted at a date specified by the Expires attribute, or after a period of time specified by the Max-Age attribute.
+
+A cookie with the HttpOnly attribute is inaccessible to the JavaScript Document.cookie API; 
+it is sent only to the server. For example, cookies that persist server-side sessions don't need to be available to JavaScript, 
+and should have the HttpOnly attribute. This precaution helps mitigate cross-site scripting (XSS) attacks.
+The Domain attribute specifies which hosts are allowed to receive the cookie. 
+If unspecified, it defaults to the same origin that set the cookie, excluding subdomains. If Domain is specified, then subdomains are always included.
+For example, if Domain=mozilla.org is set, then cookies are available on subdomains like developer.mozilla.org.
+The SameSite attribute lets servers require that a cookie shouldn't be sent with cross-origin
+requests (where Site is defined by the registrable domain), which provides some protection against cross-site request forgery attacks (CSRF).

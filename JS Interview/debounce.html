@@ -1,0 +1,71 @@
+https://www.telerik.com/blogs/debouncing-and-throttling-in-javascript
+<html>
+  <body>
+    <input id="inp" onkeyup="getApiResponse()" />
+    <script>
+      // const debounce = function (fn, d) {
+      //   return function () {
+      //     setTimeout(fn(), d);
+      //   };
+      // };
+
+      let c = 0;
+
+      // function callapi(e) {
+      //   console.log("e", ++c);
+      // }
+
+      const debounce = function (cb, delay) {
+        let timeout;
+        return function (...args) {
+          if (timeout) {
+            clearTimeout(timeout);
+          }
+          timout = setTimeout(() => {
+            console.log(args);
+            cb(...args);
+          }, delay);
+        };
+      };
+      const getApiResponse = debounce((e) => {
+        console.log(e);
+      }, 750);
+    </script>
+    <script>
+      var timerId;
+      var divBodyDom = document.getElementById("div-body");
+
+      // This represents a very heavy method which takes a lot of time to execute
+      function makeAPICall() {
+        var debounceDom = document.getElementById("debounc-count");
+        var debounceCount = debounceDom.innerHTML || 0;
+
+        debounceDom.innerHTML = parseInt(debounceCount) + 1;
+      }
+
+      // Throttle function: Input as function which needs to be throttled and delay is the time interval in milliseconds
+      var throttleFunction = function (func, delay) {
+         if (timerId) {
+          return;
+        }
+        timerId = setTimeout(function () {
+          func(); 
+          timerId = undefined;
+        }, delay);
+      };
+
+      // Event listener on the input box
+      divBodyDom.addEventListener("scroll", function () {
+        var apiCallCountDom = document.getElementById("show-api-call-count");
+        var apiCallCount = apiCallCountDom.innerHTML || 0;
+        apiCallCount = parseInt(apiCallCount) + 1;
+
+        // Updates the number of times makeAPICall method is called
+        apiCallCountDom.innerHTML = apiCallCount;
+
+        // Throttles makeAPICall method such that it is called once in every 200 milliseconds
+        throttleFunction(makeAPICall, 200);
+      });
+    </script>
+  </body>
+</html>

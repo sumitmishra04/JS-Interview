@@ -1,0 +1,40 @@
+const obj = {
+  x: 1,
+  getX() {
+    const inner = function () {
+      console.log(this.x);
+    };
+    inner();
+  },
+  getX2: () => {
+    const inner = function () {
+      console.log(this.x);
+    };
+    inner();
+  },
+};
+obj.getX();
+obj.getX2();
+
+The value of this is evaluated during the run-time, depending on the context.
+The four rules presented for determining what this in JavaScript points to boil down to one simple question: What is the calling object?
+
+Whenever a function is contained in the global scope, the value of this inside of that function will be the window object.
+Whenever a function is called by a preceding dot, the object before that dot is this.
+var greetMe = {
+    greeting: 'Hello ',
+    speak: function(name) {
+        console.log(this.greeting + name);
+        console.log(this);
+    }
+}
+
+greetMe.speak('John');
+
+
+var greeting = 'Salutations ';
+var greet = greetMe.speak;
+
+greet('John');
+Salutations John
+

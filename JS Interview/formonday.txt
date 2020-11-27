@@ -1,0 +1,80 @@
+promise
+api optimiation
+web security
+http
+fast lpoading technique
+css tricks
+
+js object 
+prototype inheritance
+new
+
+debounce
+throttle
+bind
+
+doctype: quirk mode
+web accebility
+aria-label
+aria-role
+
+html[
+    fs; 62.5 % 10px = 1rem
+]
+
+p{
+    fs; 2rem 
+}
+
+position: relative vs absolute what if relative is not mentioned
+.abc+.xyz
+
+web optimiation
+web security
+
+JSONP
+function mytest(param){
+}
+
+mytest({name: 'sumit'})
+
+abc -> abc1
+
+xss
+local session 
+new tab : new session 
+cookies
+http-only : true
+eval
+
+sql injection orm implmentation curl attack
+
+image
+lazy load
+home page 
+server side rendering
+critical rendering path : medium
+cdn : caching / fast access 
+css sprites ; time consuming ; 6 http request prallely
+
+async defer 
+scr1 1mb
+scr2 2kb
+
+myntra - thu
+--------------------------------------------------------------------
+
+WEB Fundamental (4) 
+Web security https xss cookies sql injection (2)
+
+(6) JS basics all (implement self bind, debounce , throttle, currying, promise, some ui mockups design, prototypes, constructor)
+Code (bfs , dfs, search algo, ll, array shift unshift) (4)
+
+amazon readyness(chime nd study qualities) (1)
+practice all solved questions and revise all questions (2)
+
+
+
+
+
+
